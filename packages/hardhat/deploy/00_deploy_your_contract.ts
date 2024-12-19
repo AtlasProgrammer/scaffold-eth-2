@@ -1,44 +1,36 @@
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
+import { HardhatRuntimeEnvironment } from "hardhat/types"; // Импорт типов для среды выполнения Hardhat
+import { DeployFunction } from "hardhat-deploy/types"; // Импорт типа функции деплоя
+import { BettingContract } from "../typechain-types"; // Импорт типов сгенерированного контракта
 
 /**
- * Deploys a contract named "YourContract" using the deployer account and
- * constructor arguments set to the deployer address
+ * Скрипт для деплоя смарт-контракта BettingContract.
+ * Использует Hardhat Runtime Environment для доступа к необходимым функциям и данным.
  *
- * @param hre HardhatRuntimeEnvironment object.
+ * @param hre Объект среды выполнения Hardhat.
  */
-const deployYourContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  /*
-    On localhost, the deployer account is the one that comes with Hardhat, which is already funded.
-
-    When deploying to live networks (e.g `yarn deploy --network sepolia`), the deployer account
-    should have sufficient balance to pay for the gas fees for contract creation.
-
-    You can generate a random account with `yarn generate` or `yarn account:import` to import your
-    existing PK which will fill DEPLOYER_PRIVATE_KEY_ENCRYPTED in the .env file (then used on hardhat.config.ts)
-    You can run the `yarn account` command to check your balance in every network.
-  */
+const deployBettingContract: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+  // Извлечение имени учетной записи для деплоя
   const { deployer } = await hre.getNamedAccounts();
+  // Получение функции для развертывания контрактов
   const { deploy } = hre.deployments;
 
-  await deploy("YourContract", {
-    from: deployer,
-    // Contract constructor arguments
-    args: [deployer],
-    log: true,
-    // autoMine: can be passed to the deploy function to make the deployment process faster on local networks by
-    // automatically mining the contract deployment transaction. There is no effect on live networks.
-    autoMine: true,
+  // Развертывание контракта BettingContract
+  await deploy("BettingContract", {
+    from: deployer, // Учетная запись, которая развертывает контракт
+    args: [], // Аргументы конструктора контракта (в данном случае отсутствуют)
+    log: true, // Включение логирования процесса развертывания
+    autoMine: true, // Автоматическое майнинг транзакции на локальной сети
   });
 
-  // Get the deployed contract to interact with it after deploying.
-  const yourContract = await hre.ethers.getContract<Contract>("YourContract", deployer);
-  console.log("👋 Initial greeting:", await yourContract.greeting());
+  // Получение экземпляра развернутого контракта
+  const bettingContract = await hre.ethers.getContract<BettingContract>("BettingContract", deployer);
+
+  // Проверка успешного развертывания контракта через вызов метода greeting()
+  console.log("👋 Initial greeting:", await bettingContract.greeting());
 };
 
-export default deployYourContract;
+// Экспорт функции для использования в командах Hardhat
+export default deployBettingContract;
 
-// Tags are useful if you have multiple deploy files and only want to run one of them.
-// e.g. yarn deploy --tags YourContract
-deployYourContract.tags = ["YourContract"];
+// Присвоение тега для удобного выбора скрипта при выполнении
+deployBettingContract.tags = ["BettingContract"];
