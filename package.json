@@ -53,5 +53,10 @@
   },
   "engines": {
     "node": ">=18.18.0"
+  },
+  "dependencies": {
+    "ethers": "^6.13.4",
+    "se-2": "file:",
+    "wagmi": "latest"
   }
 }
