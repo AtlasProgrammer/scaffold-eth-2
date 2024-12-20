@@ -25,9 +25,7 @@ export default function HasUserBet({ betId }: { betId: bigint }) {
     <div className="p-4 bg-blue-500 text-white rounded-lg shadow-md mt-4">
       {hasBet ? (
         <p className="text-xl font-semibold">Вы уже сделали ставку на эту игру.</p> // Если пользователь сделал ставку
-      ) : (
-        <p className="text-xl font-semibold">Вы ещё не сделали ставку на эту игру.</p> // Если пользователь не сделал ставку
-      )}
+      ) : null }
     </div>
   );
 }
