@@ -52,6 +52,21 @@ contract BettingContract {
     }
 
     /**
+     * @dev Увеличивает сумму существующей ставки.
+     * @param _betId ID ставки.
+     */
+    function betUp(uint _betId) public payable {
+        require(_betId < bets.length, "Bet with such an ID does not exist");
+        Bet storage bet = bets[_betId];
+
+        require(bet.isActive, "Bet is not active");
+        require(msg.value > 0, "Must send a positive amount");
+
+        // Увеличиваем сумму ставки
+        bet.amount += msg.value;
+    }
+
+    /**
      * @dev Завершает ставку и деактивирует её.
      * @param _betId ID ставки.
      */
